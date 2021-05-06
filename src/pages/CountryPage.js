@@ -75,8 +75,4 @@ export default function CountryPage() {
       <img src={countryInfo?.flag} alt={countryInfo?.name} width="70" />
     </div>
   )
-
-
-
-  
-  
+}
