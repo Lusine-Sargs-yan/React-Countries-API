@@ -28,7 +28,7 @@ const countriesReducer = (state, action) => {
 
 export default function CountryPage() {
   const {countryId} = useParams();
-  const [countryInfo, dispatch] = useReducer(countriesReducer, initialState);
+  const [countryResponse, dispatch] = useReducer(countriesReducer, initialState);
 
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function CountryPage() {
     });
   }, []);
 
-  if(countryInfo.isLoading) {
+  if(countryResponse.isLoading) {
     return <LinearProgress />;
   }
 
@@ -60,7 +60,7 @@ export default function CountryPage() {
   // yess works
   return (
     <div>
-      {countryInfo.countries.map(({name, capital, nativeName, population, flag, region }) => {
+      {countryResponse.countries.map(({name, capital, nativeName, population, flag, region }) => {
 
         return (
           <div>
