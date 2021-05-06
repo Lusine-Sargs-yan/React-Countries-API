@@ -1,0 +1,9 @@
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.error {
+  color: #e71111;
+}

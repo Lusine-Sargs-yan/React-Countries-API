@@ -5,11 +5,11 @@ import './List.css';
 export default function List({ items, children, onItemClick }) {
   return (
     <div>
-      {children}
+      <div className="children">{children}</div>
       <ul className="list">
         {items.map(({ name, region, capital, nativeName, population, flag }) => {
           return (
-            <Card className="card">
+            <Card className="card" key={name}>
               <CardContent>
                 <Typography
                   color="textSecondary"
@@ -42,6 +42,8 @@ export default function List({ items, children, onItemClick }) {
     </div>
   );
 }
+
+
 
 // export default function List({ items, children }) {
 //   return (

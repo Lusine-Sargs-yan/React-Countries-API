@@ -23,7 +23,6 @@ const countriesReducer = (state, action) => {
     default:
       return initialState;
   }
-  //return initialState;
 };
 
 export default function CountryPage() {
@@ -38,7 +37,7 @@ export default function CountryPage() {
       dispatch({type: 'success', countries: data}); 
     })
     .catch((err) => {
-      dispatch({type: 'failure', error: err});
+      dispatch({type: 'failure', error: err.message});
     });
   }, []);
 
@@ -46,34 +45,38 @@ export default function CountryPage() {
     return <LinearProgress />;
   }
 
+  if(countryResponse.error) {
+    return <p className="error">{countryResponse.error}</p>
+  }
+
   // return (
   //   <div>
-  //     <h1>Region: {countryInfo.countries[0]?.region}</h1>
-  //     <h2>Country: {countryInfo.countries[0]?.name}</h2>
-  //     <h4>Capital: {countryInfo.countries[0]?.capital}</h4>
-  //     <h4>Native Name: {countryInfo.countries[0]?.nativeName}</h4>
-  //     <h4>Population: {countryInfo.countries[0]?.population}</h4>
-  //     <img width="70" alt={countryInfo.countries[0]?.name} src={countryInfo.countries[0]?.flag} />
+  //     <h1>Region: {countryResponse.countries[0]?.region}</h1>
+  //     <h2>Country: {countryResponse.countries[0]?.name}</h2>
+  //     <h4>Capital: {countryResponse.countries[0]?.capital}</h4>
+  //     <h4>Native Name: {countryResponse.countries[0]?.nativeName}</h4>
+  //     <h4>Population: {countryResponse.countries[0]?.population}</h4>
+  //     <img width="70" alt={countryResponse.countries[0]?.name} src={countryResponse.countries[0]?.flag} />
   //   </div>
   // )
-
   // yess works
+
+  const countryInfo = countryResponse?.countries[0] || {};
+  console.log(countryInfo, "countryInfo:::");
+
+
   return (
     <div>
-      {countryResponse.countries.map(({name, capital, nativeName, population, flag, region }) => {
-
-        return (
-          <div>
-            <h1>Region: {region}</h1>
-            <h2>Country: {name}</h2>
-            <h3>Capital: {capital}</h3>
-            <h3>Native name: {nativeName}</h3>
-            <h3>Population: {population}</h3>
-            <img src={flag} alt={name} width="70" />
-          </div>
-        )
-      })}
-      
+      <h1>Region: {countryInfo?.region}</h1>
+      <h2>Country: {countryInfo?.name}</h2>
+      <h3>Capital: {countryInfo?.capital}</h3>
+      <h3>Native name: {countryInfo?.nativeName}</h3>
+      <h3>Population: {countryInfo?.population}</h3>
+      <img src={countryInfo?.flag} alt={countryInfo?.name} width="70" />
     </div>
   )
-}
+
+
+
+  
+  

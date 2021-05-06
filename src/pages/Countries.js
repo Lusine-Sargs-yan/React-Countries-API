@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import List from "../components/List";
 import { FetchActionTypes } from "../helper/action.type";
 import { getAllCountries } from "../service.js/countries";
+import "./Country.css";
 
 
 const initialState = {
@@ -55,7 +56,7 @@ export default function Contries() {
   }
 
   if(countriesSate.error) {
-    return <p>{countriesSate.error}</p>
+    return <p className="error">{countriesSate.error}</p>
   }
 
   const handleCountryClick = (countryName) => {// for every country click
@@ -64,7 +65,7 @@ export default function Contries() {
 
   return (
     <div>
-      <h1>All Countries</h1>
+      <h1 className="title">All Countries List</h1>
       <List onItemClick={handleCountryClick} items={countriesSate.countries}>
       <h3>If you want to know more about every country, please click on your favorite country.</h3>
       </List>
