@@ -1,72 +1,49 @@
 import { CircularProgress } from "@material-ui/core";
-import { useEffect, useReducer, useState } from "react"
-import { useHistory } from "react-router";
+import { useEffect, useReducer } from "react"
 import List from "../components/List";
-import { FetchActionTypes } from "../helper/action.type";
+import { ResponseActionTypes } from "../helper/action.type";
+import { useNavigate } from "react-router-dom";
 import { getAllCountries } from "../service.js/countries";
+import {countriesReducer, initialState} from "../helper/reducer";
 import "./Country.css";
 
 
-const initialState = {
-  countries: [],
-  isLoading: false,
-  error: ''
-}; 
+export default function Countries() {
 
-const countriesReducer = (state, action) => {
-  console.log(state, action);
+  const [state, dispatch] = useReducer(countriesReducer, initialState);
+  //initialState is a object
+  //dispatch === action is a function
+  // state is an object
 
-  switch (action.type) {
-    case FetchActionTypes.started: 
-      return {...state, isLoading: true};
-    case FetchActionTypes.success:
-      return {...state, countries: action.countries, isLoading: false};
-    case FetchActionTypes.failure:
-      return {...state, error: action.error, isLoading: false};
-    default:
-      return initialState;
-  }
-  //return initialState;
-};
-
-
-export default function Contries() {
-
-  const [countriesSate, dispatch] = useReducer(countriesReducer, initialState);
-  //initialState is object
-  //dispatch=== action is function
-  // state is object countriesSate = state
-
-  const history = useHistory();// using for click other page single country history 
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch({type: 'started'}); // repalce all dispatch() instead of setFunctions 
+    dispatch({type: ResponseActionTypes.started}); // replace all dispatch() instead of setFunctions
 
     getAllCountries().then((data) => {
-      dispatch({type: 'success', countries: data}); 
+      dispatch({type: ResponseActionTypes.success, payload: data});
     })
     .catch((err) => {
-      dispatch({type: 'failure', error: err});
+      dispatch({type: ResponseActionTypes.failure, payload: err});
     });
   }, []);
 
-  console.log(countriesSate, "state:::");
-  if(countriesSate.isLoading) {
+  if(state.isLoading) {
     return <CircularProgress />//<p>Loading...</p>
   }
 
-  if(countriesSate.error) {
-    return <p className="error">{countriesSate.error}</p>
+  if(state.error) {
+    return <p className="error">{state.error}</p>
   }
 
   const handleCountryClick = (countryName) => {// for every country click
-    history.push(`/countries/${countryName}`);
+    navigate(`/countries/${countryName}`);
   };
 
   return (
     <div>
       <h1 className="title">All Countries List</h1>
-      <List onItemClick={handleCountryClick} items={countriesSate.countries}>
+      <List onItemClick={handleCountryClick} items={state.countries}>
       <h3>If you want to know more about every country, please click on your favorite country.</h3>
       </List>
     </div>

@@ -1,23 +1,22 @@
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { Route, Routes, BrowserRouter} from "react-router-dom";
 import Nav from "./components/Nav";
-import { Routes } from "./helper/routes";
+import Home from "./pages/Home";
+import Countries from "./pages/Countries";
+import CountryPage from "./pages/CountryPage";
+import NotFound from "./components/NotFound";
 
 export default function App() {
   return (
-    <Router>
-      <div>
+    <BrowserRouter>
+      <>
         <Nav/>
-        <Switch>
-          {Routes.map(({route, component: Component}) => (
-            <Route exact  path={route}>
-              <Component / >
-            </Route>
-          ))}
-          <Route path='*'>
-            <h2>Not Found</h2>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+        <Routes>
+          <Route index path="/" element={<Home/>}></Route>
+          <Route  path="/countries" element={<Countries/>}></Route>
+          <Route  path="/countries/:countryId" element={<CountryPage/>}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+      </>
+    </BrowserRouter>
   )
 }

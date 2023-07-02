@@ -1,5 +1,5 @@
-export const FetchActionTypes = {
+export const ResponseActionTypes = {
   started: 'started',
   success: 'success',
-  error: 'error'
+  failure: 'failure'
 };
